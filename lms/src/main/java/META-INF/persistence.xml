@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="lms">
+		<class>com.newlms.lms.model.Customer</class>
+		<class>com.newlms.lms.model.CustomerCampaign</class>
+		<class>com.newlms.lms.model.CustomerProduct</class>
+		<class>com.newlms.lms.model.CustomerResponse</class>
+		<class>com.newlms.lms.model.Product</class>
+		<class>com.newlms.lms.model.Role</class>
+		<class>com.newlms.lms.model.User</class>
+		<class>com.newlms.lms.model.UserActivity</class>
+		<class>com.newlms.lms.model.Reason</class>
+		<class>com.newlms.lms.model.Status</class>
+	</persistence-unit>
+</persistence>
