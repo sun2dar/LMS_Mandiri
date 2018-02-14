@@ -14,13 +14,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mandiri.filter.DashboardFilter;
+import com.mandiri.model.Customer;
 import com.mandiri.model.User;
 import com.mandiri.model.UserActivity;
 import com.mandiri.repository.DashboardRepository;
+import com.mandiri.service.CustomerService;
 import com.mandiri.service.DashboardService;
 import com.mandiri.service.UserService;
 import com.mandiri.util.StringUtil;
@@ -39,6 +42,9 @@ public class DashboardController {
 	
 	@Autowired
 	SessionController sessionController;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String home(Model model, HttpSession session) {
@@ -135,6 +141,19 @@ public class DashboardController {
 		model.addAttribute("userActivitys", dashboardService.listUserActivity(user.getUsername()));
 		
 		return "admin/hasilsearch";
+	}
+	
+	@RequestMapping(value="/customer-edit-all-dashboard/{cif}", method=RequestMethod.GET)
+	public String customerEditAll(@PathVariable String cif, Model model, HttpSession session){
+		sessionController.getSession(model, session);
+		
+		System.out.println("customer-edit-all-dashboard ::: "+cif);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByUsername(auth.getName());
+		Customer customer = customerService.findCustomerByCif(Long.valueOf(cif));
+		
+		return "redirect:/dashboard";
 	}
 
 }

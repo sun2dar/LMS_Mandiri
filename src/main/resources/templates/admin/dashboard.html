@@ -188,9 +188,12 @@
 													<div class="widget-body">
 														<div class="widget-main no-padding">
 															<span class="red bolder" th:text="${userActivity.day}"></span>
-
 															<br />
+															<a th:if="${userActivity.cif} != null" th:href="@{'/customer-edit-all-dashboard/' + ${userActivity.cif}}">
 															<label th:text="${userActivity.action}"></label>
+															</a>
+															<label th:if="${userActivity.cif} == null" th:text="${userActivity.action}"></label>
+															
 														</div>
 													</div>
 												</div>
