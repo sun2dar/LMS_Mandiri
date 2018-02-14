@@ -19,8 +19,6 @@ public class CustomerResponse implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	private Long cif;
-
 	private String createdby;
 
 	private Timestamp createdon;
@@ -28,15 +26,20 @@ public class CustomerResponse implements Serializable {
 	@Column(name="customer_campaignid")
 	private Long customerCampaignid;
 
-	private String email;
+	//bi-directional many-to-one association to Customer
+	@ManyToOne
+	@JoinColumn(name="cif")
+	private Customer customer;
 
-	private String nohp;
+	//bi-directional many-to-one association to Reason
+	@ManyToOne
+	@JoinColumn(name="reasonid")
+	private Reason reason;
 
-	private Timestamp reminderon;
-
-	private Integer status;
-
-	private String tanggapan;
+	//bi-directional many-to-one association to Status
+	@ManyToOne
+	@JoinColumn(name="statusid")
+	private Status status;
 
 	public CustomerResponse() {
 	}
@@ -47,14 +50,6 @@ public class CustomerResponse implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getCif() {
-		return this.cif;
-	}
-
-	public void setCif(Long cif) {
-		this.cif = cif;
 	}
 
 	public String getCreatedby() {
@@ -81,44 +76,28 @@ public class CustomerResponse implements Serializable {
 		this.customerCampaignid = customerCampaignid;
 	}
 
-	public String getEmail() {
-		return this.email;
+	public Customer getCustomer() {
+		return this.customer;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
-	public String getNohp() {
-		return this.nohp;
+	public Reason getReason() {
+		return this.reason;
 	}
 
-	public void setNohp(String nohp) {
-		this.nohp = nohp;
+	public void setReason(Reason reason) {
+		this.reason = reason;
 	}
 
-	public Timestamp getReminderon() {
-		return this.reminderon;
-	}
-
-	public void setReminderon(Timestamp reminderon) {
-		this.reminderon = reminderon;
-	}
-
-	public Integer getStatus() {
+	public Status getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(Status status) {
 		this.status = status;
-	}
-
-	public String getTanggapan() {
-		return this.tanggapan;
-	}
-
-	public void setTanggapan(String tanggapan) {
-		this.tanggapan = tanggapan;
 	}
 
 }

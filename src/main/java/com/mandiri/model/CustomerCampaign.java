@@ -2,7 +2,11 @@ package com.mandiri.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -21,11 +25,16 @@ public class CustomerCampaign implements Serializable {
 
 	private Timestamp createdon;
 
+	private String email;
+
 	private Timestamp modifiedon;
 
-	private Integer status;
+	private String nohp;
 
-	private String tanggapan;
+	@DateTimeFormat(pattern = "dd-MM-yy HH:mm")
+	@Column(nullable = false, columnDefinition= "TIMESTAMP WITHOUT TIME ZONE")
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date reminderon;
 
 	//bi-directional many-to-one association to Customer
 	@ManyToOne
@@ -36,6 +45,16 @@ public class CustomerCampaign implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="productid")
 	private Product product;
+
+	//bi-directional many-to-one association to Reason
+	@ManyToOne
+	@JoinColumn(name="reasonid")
+	private Reason reason;
+
+	//bi-directional many-to-one association to Status
+	@ManyToOne
+	@JoinColumn(name="statusid")
+	private Status status;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -66,6 +85,14 @@ public class CustomerCampaign implements Serializable {
 		this.createdon = createdon;
 	}
 
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Timestamp getModifiedon() {
 		return this.modifiedon;
 	}
@@ -74,20 +101,20 @@ public class CustomerCampaign implements Serializable {
 		this.modifiedon = modifiedon;
 	}
 
-	public Integer getStatus() {
-		return this.status;
+	public String getNohp() {
+		return this.nohp;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setNohp(String nohp) {
+		this.nohp = nohp;
 	}
 
-	public String getTanggapan() {
-		return this.tanggapan;
+	public Date getReminderon() {
+		return this.reminderon;
 	}
 
-	public void setTanggapan(String tanggapan) {
-		this.tanggapan = tanggapan;
+	public void setReminderon(Date reminderon) {
+		this.reminderon = reminderon;
 	}
 
 	public Customer getCustomer() {
@@ -104,6 +131,22 @@ public class CustomerCampaign implements Serializable {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Reason getReason() {
+		return this.reason;
+	}
+
+	public void setReason(Reason reason) {
+		this.reason = reason;
+	}
+
+	public Status getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public User getUser1() {

@@ -9,5 +9,7 @@
 		<class>com.mandiri.model.Role</class>
 		<class>com.mandiri.model.User</class>
 		<class>com.mandiri.model.UserActivity</class>
+		<class>com.mandiri.model.Reason</class>
+		<class>com.mandiri.model.Status</class>
 	</persistence-unit>
 </persistence>

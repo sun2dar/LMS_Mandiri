@@ -16,6 +16,11 @@ import java.util.List;
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public Customer(Long cif) {
+		super();
+		this.cif = cif;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long cif;
@@ -64,6 +69,10 @@ public class Customer implements Serializable {
 	//bi-directional many-to-one association to CustomerProduct
 	@OneToMany(mappedBy="customer")
 	private List<CustomerProduct> customerProducts;
+
+	//bi-directional many-to-one association to CustomerResponse
+	@OneToMany(mappedBy="customer")
+	private List<CustomerResponse> customerResponses;
 
 	//bi-directional many-to-one association to UserActivity
 	@OneToMany(mappedBy="customer")
@@ -242,6 +251,28 @@ public class Customer implements Serializable {
 		customerProduct.setCustomer(null);
 
 		return customerProduct;
+	}
+
+	public List<CustomerResponse> getCustomerResponses() {
+		return this.customerResponses;
+	}
+
+	public void setCustomerResponses(List<CustomerResponse> customerResponses) {
+		this.customerResponses = customerResponses;
+	}
+
+	public CustomerResponse addCustomerRespons(CustomerResponse customerRespons) {
+		getCustomerResponses().add(customerRespons);
+		customerRespons.setCustomer(this);
+
+		return customerRespons;
+	}
+
+	public CustomerResponse removeCustomerRespons(CustomerResponse customerRespons) {
+		getCustomerResponses().remove(customerRespons);
+		customerRespons.setCustomer(null);
+
+		return customerRespons;
 	}
 
 	public List<UserActivity> getUserActivities() {
