@@ -31,17 +31,30 @@ public class Product implements Serializable {
 
 	private Long producttypeid;
 
-	private Long subproductid;
-
-	private String subproductname;
+	//bi-directional many-to-one association to CustomerCampaign
+	@OneToMany(mappedBy="product1")
+	private List<CustomerCampaign> customerCampaigns1;
 
 	//bi-directional many-to-one association to CustomerCampaign
-	@OneToMany(mappedBy="product")
-	private List<CustomerCampaign> customerCampaigns;
+	@OneToMany(mappedBy="product2")
+	private List<CustomerCampaign> customerCampaigns2;
 
 	//bi-directional many-to-one association to CustomerProduct
 	@OneToMany(mappedBy="product")
 	private List<CustomerProduct> customerProducts;
+
+	//bi-directional many-to-one association to CustomerResponse
+	@OneToMany(mappedBy="product")
+	private List<CustomerResponse> customerResponses;
+
+	//bi-directional many-to-one association to Product
+	@ManyToOne
+	@JoinColumn(name="parentproductid")
+	private Product product;
+
+	//bi-directional many-to-one association to Product
+	@OneToMany(mappedBy="product")
+	private List<Product> products;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -112,42 +125,48 @@ public class Product implements Serializable {
 		this.producttypeid = producttypeid;
 	}
 
-	public Long getSubproductid() {
-		return this.subproductid;
+	public List<CustomerCampaign> getCustomerCampaigns1() {
+		return this.customerCampaigns1;
 	}
 
-	public void setSubproductid(Long subproductid) {
-		this.subproductid = subproductid;
+	public void setCustomerCampaigns1(List<CustomerCampaign> customerCampaigns1) {
+		this.customerCampaigns1 = customerCampaigns1;
 	}
 
-	public String getSubproductname() {
-		return this.subproductname;
+	public CustomerCampaign addCustomerCampaigns1(CustomerCampaign customerCampaigns1) {
+		getCustomerCampaigns1().add(customerCampaigns1);
+		customerCampaigns1.setProduct1(this);
+
+		return customerCampaigns1;
 	}
 
-	public void setSubproductname(String subproductname) {
-		this.subproductname = subproductname;
+	public CustomerCampaign removeCustomerCampaigns1(CustomerCampaign customerCampaigns1) {
+		getCustomerCampaigns1().remove(customerCampaigns1);
+		customerCampaigns1.setProduct1(null);
+
+		return customerCampaigns1;
 	}
 
-	public List<CustomerCampaign> getCustomerCampaigns() {
-		return this.customerCampaigns;
+	public List<CustomerCampaign> getCustomerCampaigns2() {
+		return this.customerCampaigns2;
 	}
 
-	public void setCustomerCampaigns(List<CustomerCampaign> customerCampaigns) {
-		this.customerCampaigns = customerCampaigns;
+	public void setCustomerCampaigns2(List<CustomerCampaign> customerCampaigns2) {
+		this.customerCampaigns2 = customerCampaigns2;
 	}
 
-	public CustomerCampaign addCustomerCampaign(CustomerCampaign customerCampaign) {
-		getCustomerCampaigns().add(customerCampaign);
-		customerCampaign.setProduct(this);
+	public CustomerCampaign addCustomerCampaigns2(CustomerCampaign customerCampaigns2) {
+		getCustomerCampaigns2().add(customerCampaigns2);
+		customerCampaigns2.setProduct2(this);
 
-		return customerCampaign;
+		return customerCampaigns2;
 	}
 
-	public CustomerCampaign removeCustomerCampaign(CustomerCampaign customerCampaign) {
-		getCustomerCampaigns().remove(customerCampaign);
-		customerCampaign.setProduct(null);
+	public CustomerCampaign removeCustomerCampaigns2(CustomerCampaign customerCampaigns2) {
+		getCustomerCampaigns2().remove(customerCampaigns2);
+		customerCampaigns2.setProduct2(null);
 
-		return customerCampaign;
+		return customerCampaigns2;
 	}
 
 	public List<CustomerProduct> getCustomerProducts() {
@@ -170,6 +189,58 @@ public class Product implements Serializable {
 		customerProduct.setProduct(null);
 
 		return customerProduct;
+	}
+
+	public List<CustomerResponse> getCustomerResponses() {
+		return this.customerResponses;
+	}
+
+	public void setCustomerResponses(List<CustomerResponse> customerResponses) {
+		this.customerResponses = customerResponses;
+	}
+
+	public CustomerResponse addCustomerRespons(CustomerResponse customerRespons) {
+		getCustomerResponses().add(customerRespons);
+		customerRespons.setProduct(this);
+
+		return customerRespons;
+	}
+
+	public CustomerResponse removeCustomerRespons(CustomerResponse customerRespons) {
+		getCustomerResponses().remove(customerRespons);
+		customerRespons.setProduct(null);
+
+		return customerRespons;
+	}
+
+	public Product getProduct() {
+		return this.product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public List<Product> getProducts() {
+		return this.products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public Product addProduct(Product product) {
+		getProducts().add(product);
+		product.setProduct(this);
+
+		return product;
+	}
+
+	public Product removeProduct(Product product) {
+		getProducts().remove(product);
+		product.setProduct(null);
+
+		return product;
 	}
 
 	public User getUser1() {

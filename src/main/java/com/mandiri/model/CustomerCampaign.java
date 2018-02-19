@@ -23,13 +23,27 @@ public class CustomerCampaign implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	private Long accountno;
+
+	private double amount;
+
+	private String cardno;
+
+	private String corpid;
+
 	private Timestamp createdon;
+
+	private String dobusinesno;
 
 	private String email;
 
 	private Timestamp modifiedon;
 
+	private String nik;
+
 	private String nohp;
+
+	private String npwp;
 
 	@DateTimeFormat(pattern = "dd-MM-yy HH:mm")
 	@Column(nullable = false, columnDefinition= "TIMESTAMP WITHOUT TIME ZONE")
@@ -44,7 +58,12 @@ public class CustomerCampaign implements Serializable {
 	//bi-directional many-to-one association to Product
 	@ManyToOne
 	@JoinColumn(name="productid")
-	private Product product;
+	private Product product1;
+
+	//bi-directional many-to-one association to Product
+	@ManyToOne
+	@JoinColumn(name="subproductid")
+	private Product product2;
 
 	//bi-directional many-to-one association to Reason
 	@ManyToOne
@@ -77,12 +96,52 @@ public class CustomerCampaign implements Serializable {
 		this.id = id;
 	}
 
+	public Long getAccountno() {
+		return this.accountno;
+	}
+
+	public void setAccountno(Long accountno) {
+		this.accountno = accountno;
+	}
+
+	public double getAmount() {
+		return this.amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getCardno() {
+		return this.cardno;
+	}
+
+	public void setCardno(String cardno) {
+		this.cardno = cardno;
+	}
+
+	public String getCorpid() {
+		return this.corpid;
+	}
+
+	public void setCorpid(String corpid) {
+		this.corpid = corpid;
+	}
+
 	public Timestamp getCreatedon() {
 		return this.createdon;
 	}
 
 	public void setCreatedon(Timestamp createdon) {
 		this.createdon = createdon;
+	}
+
+	public String getDobusinesno() {
+		return this.dobusinesno;
+	}
+
+	public void setDobusinesno(String dobusinesno) {
+		this.dobusinesno = dobusinesno;
 	}
 
 	public String getEmail() {
@@ -101,12 +160,28 @@ public class CustomerCampaign implements Serializable {
 		this.modifiedon = modifiedon;
 	}
 
+	public String getNik() {
+		return this.nik;
+	}
+
+	public void setNik(String nik) {
+		this.nik = nik;
+	}
+
 	public String getNohp() {
 		return this.nohp;
 	}
 
 	public void setNohp(String nohp) {
 		this.nohp = nohp;
+	}
+
+	public String getNpwp() {
+		return this.npwp;
+	}
+
+	public void setNpwp(String npwp) {
+		this.npwp = npwp;
 	}
 
 	public Date getReminderon() {
@@ -125,12 +200,20 @@ public class CustomerCampaign implements Serializable {
 		this.customer = customer;
 	}
 
-	public Product getProduct() {
-		return this.product;
+	public Product getProduct1() {
+		return this.product1;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProduct1(Product product1) {
+		this.product1 = product1;
+	}
+
+	public Product getProduct2() {
+		return this.product2;
+	}
+
+	public void setProduct2(Product product2) {
+		this.product2 = product2;
 	}
 
 	public Reason getReason() {

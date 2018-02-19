@@ -22,7 +22,6 @@ public class Customer implements Serializable {
 	}
 
 	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long cif;
 
 	private String address;
@@ -42,11 +41,15 @@ public class Customer implements Serializable {
 
 	private String indentitytype;
 
+	private String jobtype;
+
 	private Timestamp modifiedon;
 
 	private String mothername;
 
 	private String name;
+
+	private Integer nasabahpep;
 
 	private String nik;
 
@@ -153,6 +156,14 @@ public class Customer implements Serializable {
 		this.indentitytype = indentitytype;
 	}
 
+	public String getJobtype() {
+		return this.jobtype;
+	}
+
+	public void setJobtype(String jobtype) {
+		this.jobtype = jobtype;
+	}
+
 	public Timestamp getModifiedon() {
 		return this.modifiedon;
 	}
@@ -175,6 +186,14 @@ public class Customer implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getNasabahpep() {
+		return this.nasabahpep;
+	}
+
+	public void setNasabahpep(Integer nasabahpep) {
+		this.nasabahpep = nasabahpep;
 	}
 
 	public String getNik() {

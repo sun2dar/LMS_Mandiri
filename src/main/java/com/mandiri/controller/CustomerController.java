@@ -140,7 +140,7 @@ public class CustomerController {
 //	        System.out.println(result.getGlobalError() + "" + result.getFieldError());
 //	    }
 		System.out.println(blankCampaign.toString());
-		System.out.println(blankCampaign.getProduct().getName());
+		System.out.println(blankCampaign.getProduct1().getName());
 		campaignRepo.save(blankCampaign);
 		
 		return "test";

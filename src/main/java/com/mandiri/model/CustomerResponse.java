@@ -23,13 +23,15 @@ public class CustomerResponse implements Serializable {
 
 	private Timestamp createdon;
 
-	@Column(name="customer_campaignid")
-	private Long customerCampaignid;
-
 	//bi-directional many-to-one association to Customer
 	@ManyToOne
 	@JoinColumn(name="cif")
 	private Customer customer;
+
+	//bi-directional many-to-one association to Product
+	@ManyToOne
+	@JoinColumn(name="productid")
+	private Product product;
 
 	//bi-directional many-to-one association to Reason
 	@ManyToOne
@@ -68,20 +70,20 @@ public class CustomerResponse implements Serializable {
 		this.createdon = createdon;
 	}
 
-	public Long getCustomerCampaignid() {
-		return this.customerCampaignid;
-	}
-
-	public void setCustomerCampaignid(Long customerCampaignid) {
-		this.customerCampaignid = customerCampaignid;
-	}
-
 	public Customer getCustomer() {
 		return this.customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Product getProduct() {
+		return this.product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public Reason getReason() {
