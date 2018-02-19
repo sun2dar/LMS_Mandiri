@@ -29,6 +29,7 @@
 	        <div class="modal-body">
 				<form id="blankCampaign" name="blankCampaign" th:action="@{/campaignSave}" th:object="${blankCampaign}" method="post">
 					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:field="*{customer}" />
 	            <div class="form-group">
 	              <label>Nama Produk</label>
 	              <select class="form-control" th:field="*{product}">
@@ -40,7 +41,6 @@
 	            <div class="form-group">
 	                <label>Hasil Tanggapan</label>
 	                <input type="hidden" th:field="*{status}"></input>
-<!-- 						<input type="hidden" id="statusid" value="0"></input> -->
 	                <div class="btn-group pull-right">
 	                  <button id="btnYa" type="button" class="btn btn-info">Ya</button>
 	                  <button id="btnToBe" type="button" class="btn btn-default">To Be Follow Up</button>
@@ -89,6 +89,31 @@
 	    </div>
 	  </div>
 	</div>
+	<!-- End Modal Penawaran baru -->
+	
+	<!-- Modal Detail Produk -->
+	<div class="container">
+	  <div class="modal fade" id="modalDetail" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Detail Produk</h4>
+	        </div>
+	        <div id="modalDetailBody" class="modal-body">
+	          
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	  </div>
+  	</div>
+  	<!-- End Modal Detail Produk -->
 
 	<div class="container-fluid">
 	  <!--Outer-->
@@ -154,7 +179,7 @@
 						      <tr th:each="newproduct : ${newproduct}">
 						        <td class="col-md-2" th:text="${newproduct.product.name}"></td>
 						        <td class="col-md-1">
-						        	<button th:id="'btnProduct_'+${newproduct.product.id}" type="button" class="btn btn-info">Detail</button>
+						        	<button th:onclick="|showDetailProduct('${newproduct.product.id}')|" th:id="'btnDetail_'+${newproduct.product.id}" type="button" class="btn btn-info"  data-toggle="modal" data-target="#modalDetail">Detail</button>
 						       	</td>
 						      </tr>
 						    </tbody>
@@ -224,7 +249,26 @@
 </html>
 
 <Script type="text/javascript" th:inline="javascript">
+	function showDetailProduct(id){
+		//var productid = JSON.stringify({ "id":id });
+		//alert(productid);
+		$.ajax({
+		      url: '/getDetailProduct?id='+id,
+		      type: 'get',
+		      success: function(response) {
+		    	  $("#modalDetailBody").html(response);
+		    	  //alert(response);
+		      },
+		      error: function(e){
+		            //alert(xhr + status + errorThrown);
+		            alert(e.responseText);
+	          }
+		  });
+		
+	};
+
 	$(document).ready(function(){
+			
 		var $form = $('#blankCampaign');
 		  $form.on('submit', function(e) {
 		    e.preventDefault();

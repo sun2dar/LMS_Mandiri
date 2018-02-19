@@ -2,14 +2,19 @@ package com.mandiri.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,12 +32,16 @@ import com.mandiri.repository.CustomerRepository;
 import com.mandiri.repository.ProductRepository;
 import com.mandiri.repository.ReasonRepository;
 import com.mandiri.repository.StatusRepository;
+import com.mandiri.service.CustomerService;
+import com.mandiri.service.UserService;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class CustomerController {
@@ -54,14 +63,25 @@ public class CustomerController {
 	
 	@Autowired
 	private StatusRepository statusRepo;
+	@Autowired
+	SessionController sessionController;
 	
-	Long cif = 1111L;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private UserService userService;
 	
-	@GetMapping(value={"/customer"})
-	public String customerSingleView(ModelMap model){
-		//Hardcode user's cif number
-		//Long cif = 1111L;
-		//customer information
+	
+	//Long cif = 1111L;
+	
+	@GetMapping(value={"/customer-edit/{cif}"})
+	public String customerEdit(@PathVariable Long cif, Model model, HttpSession session){
+		sessionController.getSession(model, session);
+			
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByUsername(auth.getName());
+		Customer customer = customerService.findCustomerByCif(Long.valueOf(cif));
+			
 		System.out.println(System.getProperty("catalina.base"));
 		
 		Customer cust = new Customer();
@@ -95,6 +115,7 @@ public class CustomerController {
 		
 		//Blank Customer Campaign for form purpose
 		CustomerCampaign blankCampaign = new CustomerCampaign();
+		blankCampaign.setCustomer(new Customer(cif));
 		model.addAttribute("blankCampaign", blankCampaign);
 		
 		return "CustomerView";
@@ -110,7 +131,7 @@ public class CustomerController {
 		blankCampaign.setUser1(createdby);;
 		
 		//SET CIF by session
-		blankCampaign.setCustomer(new Customer(cif));
+		//blankCampaign.setCustomer(new Customer(blan));
 		
 	    String json = httpEntity.getBody();
 		System.out.println(json);
@@ -120,12 +141,22 @@ public class CustomerController {
 //	    }
 		System.out.println(blankCampaign.toString());
 		System.out.println(blankCampaign.getProduct().getName());
-		//System.out.println(blankCampaign.getStatus().getName());
 		campaignRepo.save(blankCampaign);
 		
 		return "test";
 	}
 	
+	
+	@GetMapping(value={"/getDetailProduct"})
+	@ResponseBody
+	public String getDetailProduct(@RequestParam("id") Long id){
+		System.out.println(id);
+		
+		Product prod = new Product();
+		prod = productRepo.findOne(id);
+		
+		return prod.getDetail().toString();
+	}
 	
 	//Testing post from ajax
 	@GetMapping(value={"/Test"})
