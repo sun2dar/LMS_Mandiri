@@ -16,6 +16,8 @@
 <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
 <link rel="stylesheet"
 	th:href="@{/assets/font-awesome/4.2.0/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/datepicker.min.css}" />
+
 
 <!-- page specific plugin styles -->
 
@@ -241,7 +243,14 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Nama Nasabah </label>
 						<div class="col-sm-3">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Nama Nasabah..." class="form-control" />
+							<label>
+								<input name="form-field-radio" type="radio" class="ace" />
+								<span class="lbl"> Off</span>
+							</label>
+							<label>
+								<input name="form-field-radio" type="radio" class="ace" />
+								<span class="lbl"> On</span>
+							</label>
 						</div>
 						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Nasabah PeP </label>
 						<div class="col-sm-1">
@@ -277,7 +286,13 @@
 						</div>
 						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Tanggal Lahir </label>
 						<div class="col-sm-2">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Tanggal Lahir..." class="form-control" />
+							 <div class="input-group">
+								<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+								<span class="input-group-addon">
+									<i class="fa fa-calendar bigger-110"></i>
+								</span>
+							</div>
+
 						</div>
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Nomor Telepon/HP </label>
 						<div class="col-sm-2">
@@ -375,9 +390,24 @@
 	<script th:src="@{/assets/js/jquery.dataTables.bootstrap.min.js}"></script>
 	<script th:src="@{/assets/js/dataTables.tableTools.min.js}"></script>
 	<script th:src="@{/assets/js/dataTables.colVis.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap-datepicker.min.js}"></script>
+	
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
+	
+	//datepicker plugin
+	//link
+	$('.date-picker').datepicker({
+		autoclose: true,
+		todayHighlight: true
+	})
+	//show datepicker when clicking on the icon
+	.next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+
+	
 		jQuery(function($) {
 			//initiate dataTables plugin
 			var oTable1 = $('#dynamic-table')

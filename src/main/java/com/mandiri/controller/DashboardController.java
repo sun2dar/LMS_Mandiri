@@ -76,6 +76,9 @@ public class DashboardController {
 		model.addAttribute("adminMessage", "Content Available Only for Users with Admin Role");
 		model.addAttribute("userActivitys", dashboardService.listUserActivity(user.getUsername()));
 		
+		System.out.println("userName ::: "+user.getFullname());
+		System.out.println("lastlogin ::: "+user.getLastlogin());
+		
 		
 //		modelAndView.setViewName("admin/home");
 		return "admin/dashboard";
