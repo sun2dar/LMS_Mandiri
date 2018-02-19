@@ -2,14 +2,19 @@ package com.mandiri.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,12 +32,16 @@ import com.mandiri.repository.CustomerRepository;
 import com.mandiri.repository.ProductRepository;
 import com.mandiri.repository.ReasonRepository;
 import com.mandiri.repository.StatusRepository;
+import com.mandiri.service.CustomerService;
+import com.mandiri.service.UserService;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class CustomerController {
@@ -57,7 +66,7 @@ public class CustomerController {
 	
 	Long cif = 1111L;
 	
-	@GetMapping(value={"/customer"})
+	@GetMapping(value={"/", "/customer"})
 	public String customerSingleView(ModelMap model){
 		//Hardcode user's cif number
 		//Long cif = 1111L;
@@ -126,6 +135,17 @@ public class CustomerController {
 		return "test";
 	}
 	
+	
+	@GetMapping(value={"/getDetailProduct"})
+	@ResponseBody
+	public String getDetailProduct(@RequestParam("id") Long id){
+		System.out.println(id);
+		
+		Product prod = new Product();
+		prod = productRepo.findOne(id);
+		
+		return prod.getDetail().toString();
+	}
 	
 	//Testing post from ajax
 	@GetMapping(value={"/Test"})
