@@ -29,6 +29,7 @@
 	        <div class="modal-body">
 				<form id="blankCampaign" name="blankCampaign" th:action="@{/campaignSave}" th:object="${blankCampaign}" method="post">
 					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:field="*{customer}" />
 	            <div class="form-group">
 	              <label>Nama Produk</label>
 	              <select class="form-control" th:field="*{product}">
@@ -40,7 +41,6 @@
 	            <div class="form-group">
 	                <label>Hasil Tanggapan</label>
 	                <input type="hidden" th:field="*{status}"></input>
-<!-- 						<input type="hidden" id="statusid" value="0"></input> -->
 	                <div class="btn-group pull-right">
 	                  <button id="btnYa" type="button" class="btn btn-info">Ya</button>
 	                  <button id="btnToBe" type="button" class="btn btn-default">To Be Follow Up</button>

@@ -63,14 +63,25 @@ public class CustomerController {
 	
 	@Autowired
 	private StatusRepository statusRepo;
+	@Autowired
+	SessionController sessionController;
 	
-	Long cif = 1111L;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private UserService userService;
 	
-	@GetMapping(value={"/", "/customer"})
-	public String customerSingleView(ModelMap model){
-		//Hardcode user's cif number
-		//Long cif = 1111L;
-		//customer information
+	
+	//Long cif = 1111L;
+	
+	@GetMapping(value={"/customer-edit/{cif}"})
+	public String customerEdit(@PathVariable Long cif, Model model, HttpSession session){
+		sessionController.getSession(model, session);
+			
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByUsername(auth.getName());
+		Customer customer = customerService.findCustomerByCif(Long.valueOf(cif));
+			
 		System.out.println(System.getProperty("catalina.base"));
 		
 		Customer cust = new Customer();
@@ -104,6 +115,7 @@ public class CustomerController {
 		
 		//Blank Customer Campaign for form purpose
 		CustomerCampaign blankCampaign = new CustomerCampaign();
+		blankCampaign.setCustomer(new Customer(cif));
 		model.addAttribute("blankCampaign", blankCampaign);
 		
 		return "CustomerView";
@@ -119,7 +131,7 @@ public class CustomerController {
 		blankCampaign.setUser1(createdby);;
 		
 		//SET CIF by session
-		blankCampaign.setCustomer(new Customer(cif));
+		//blankCampaign.setCustomer(new Customer(blan));
 		
 	    String json = httpEntity.getBody();
 		System.out.println(json);
@@ -129,7 +141,6 @@ public class CustomerController {
 //	    }
 		System.out.println(blankCampaign.toString());
 		System.out.println(blankCampaign.getProduct().getName());
-		//System.out.println(blankCampaign.getStatus().getName());
 		campaignRepo.save(blankCampaign);
 		
 		return "test";
