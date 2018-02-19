@@ -171,6 +171,11 @@
 								<h4 class="alert-heading">Perhatian!</h4>
 								<p th:text="${messageDataKosong}"></p>
 						</div>
+						<div class="alert alert-block alert-success fade in" th:if="${messageDataSimpan}">
+								<button type="button" class="close" data-dismiss="alert"></button>
+								<h4 class="alert-heading">Perhatian!</h4>
+								<p th:text="${messageDataSimpan}"></p>
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -187,7 +192,7 @@
 								<thead>
 									<tr>
 										<th>CIF</th>
-										<th>NIK - Nama</th>
+										<th>NIK</th>
 										<th>Nama</th>
 										<th>Nomor Rekening</th>
 										<th>Nomor Kartu</th>
@@ -233,38 +238,37 @@
 	        <h4 class="modal-title">Tambah Nasabah Baru</h4>
 	      </div>
 	          <div class="modal-body">
-	          	<form class="form-horizontal" role="form">
+	          	<form class="form-horizontal"  th:action="@{/customer-add-action}" th:object="${customerFilter}" method="POST">
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Nomor CIF </label>
 						<div class="col-sm-9">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Nomor CIF..." class="form-control" />
+							<input type="text" th:field="*{cif}" onkeypress="return isNumber(event)" id="form-field-1-1" placeholder="Ketikkan Nomor CIF..." class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Nama Nasabah </label>
 						<div class="col-sm-3">
-							<label>
-								<input name="form-field-radio" type="radio" class="ace" />
-								<span class="lbl"> Off</span>
-							</label>
+							<input type="text" th:field="*{name}" id="form-field-1-1" placeholder="Ketikkan Nama Nasabah..." class="form-control" />
+						</div>
+						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Nasabah PeP </label>
+						<div class="col-sm-1">
 							<label>
 								<input name="form-field-radio" type="radio" class="ace" />
 								<span class="lbl"> On</span>
 							</label>
-						</div>
-						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Nasabah PeP </label>
-						<div class="col-sm-1">
-							<input name="switch-field-1" class="ace ace-switch ace-switch-7" type="checkbox" />
-							<span class="lbl"></span>
+							<label>
+								<input name="form-field-radio" type="radio" class="ace" />
+								<span class="lbl"> Off</span>
+							</label>
 						</div>
 						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Jenis Kelamin </label>
 						<div class="col-sm-3">
 							<label>
-								<input name="form-field-radio" type="radio" class="ace" />
+								<input name="form-field-radio" type="radio" class="ace" th:field="*{gender}" value="1" />
 								<span class="lbl"> Laki-laki</span>
 							</label>
 							<label>
-									<input name="form-field-radio" type="radio" class="ace" />
+									<input name="form-field-radio" type="radio" class="ace" th:field="*{gender}" value="0" />
 									<span class="lbl"> Perempuan</span>
 								</label>
 						</div>
@@ -272,22 +276,22 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Jenis Identitas </label>
 						<div class="col-sm-4">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Jenis Identitas..." class="form-control" />
+							<input type="text" th:field="*{indentitytype}" id="form-field-1-1" placeholder="Ketikkan Jenis Identitas..." class="form-control" />
 						</div>
 						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> NIK </label>
 						<div class="col-sm-4">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Nomor Identitas..." class="form-control" />
+							<input type="text" th:field="*{nik}" onkeypress="return isNumber(event)" id="form-field-1-1" placeholder="Ketikkan Nomor Identitas..." class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Tempat Lahir </label>
 						<div class="col-sm-2">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Kota Kelahiran..." class="form-control" />
+							<input type="text" th:field="*{birthplace}" id="form-field-1-1" placeholder="Ketikkan Kota Kelahiran..." class="form-control" />
 						</div>
 						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Tanggal Lahir </label>
 						<div class="col-sm-2">
 							 <div class="input-group">
-								<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
+								<input class="form-control date-picker" th:field="*{birthdate}" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" />
 								<span class="input-group-addon">
 									<i class="fa fa-calendar bigger-110"></i>
 								</span>
@@ -296,13 +300,13 @@
 						</div>
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Nomor Telepon/HP </label>
 						<div class="col-sm-2">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Nomor Telepon/HP..." class="form-control" />
+							<input type="text" id="form-field-1-1" onkeypress="return isNumber(event)" maxlength="12" th:field="*{phone}" placeholder="Ketikkan Nomor Telepon/HP..." class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Alamat </label>
 						<div class="col-sm-9">
-							<textarea class="form-control" id="form-field-8" placeholder="Ketikkan Alamat Nasabah..."></textarea>
+							<textarea class="form-control" th:field="*{address}" id="form-field-8" placeholder="Ketikkan Alamat Nasabah..."></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -316,7 +320,7 @@
 						</div>
 						<label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Alamat e-mail </label>
 						<div class="col-sm-4">
-							<input type="text" id="form-field-1-1" placeholder="Ketikkan Alamat e-mail..." class="form-control" />
+							<input type="email" th:field="*{email}" id="form-field-1-1" placeholder="Ketikkan Alamat e-mail..." class="form-control" />
 						</div>
 					</div>
 					<div class="space-4"></div>
@@ -394,6 +398,16 @@
 	
 
 	<!-- inline scripts related to this page -->
+	<script type="text/javascript">     
+	function isNumber(evt) {
+	        evt = (evt) ? evt : window.event;
+	        var charCode = (evt.which) ? evt.which : evt.keyCode;
+	        if ( (charCode > 31 && charCode < 48) || charCode > 57) {
+	            return false;
+	        }
+	        return true;
+	    }
+	</script>
 	<script type="text/javascript">
 	
 	//datepicker plugin

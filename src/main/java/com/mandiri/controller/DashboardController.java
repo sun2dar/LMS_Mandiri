@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mandiri.filter.CustomerFilter;
 import com.mandiri.filter.DashboardFilter;
 import com.mandiri.model.Customer;
 import com.mandiri.model.User;
@@ -139,6 +140,8 @@ public class DashboardController {
 		model.addAttribute("strYear", strYear);
 		model.addAttribute("strDay", strDay);
 		
+		CustomerFilter customerFilter = new CustomerFilter();
+		model.addAttribute("customerFilter", customerFilter);
 		model.addAttribute("dashboardFilter", dashboardFilter);
 		model.addAttribute("userName", user.getFullname());
 		model.addAttribute("userActivitys", dashboardService.listUserActivity(user.getUsername()));
