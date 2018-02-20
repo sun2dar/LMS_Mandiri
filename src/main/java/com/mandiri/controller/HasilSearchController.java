@@ -3,6 +3,8 @@ package com.mandiri.controller;
 import java.sql.Timestamp;
 
 import javax.servlet.http.HttpSession;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mandiri.filter.CustomerFilter;
+import com.mandiri.filter.DashboardFilter;
 import com.mandiri.model.Customer;
 import com.mandiri.model.User;
 import com.mandiri.model.UserActivity;
 import com.mandiri.repository.CustomerRepository;
 import com.mandiri.repository.DashboardRepository;
 import com.mandiri.service.CustomerService;
+import com.mandiri.service.DashboardService;
 import com.mandiri.service.UserService;
 
 @Controller
@@ -34,6 +38,9 @@ public class HasilSearchController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private DashboardService dashboardService;
 	
 	@Autowired
 	private DashboardRepository dashboardRepository;
@@ -76,6 +83,9 @@ public class HasilSearchController {
 		System.out.println("ALAMAT ===>>>"+customerFilter.getAddress());
 		System.out.println("EMAIL ===>>>"+customerFilter.getEmail());
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByUsername(auth.getName());
+		
 		Customer cust = new Customer();
 		cust.setCif(customerFilter.getCif().longValue());
 		cust.setName(customerFilter.getName());
@@ -90,11 +100,34 @@ public class HasilSearchController {
 		cust.setPhone(customerFilter.getPhone());
 		cust.setAddress(customerFilter.getAddress());
 		cust.setEmail(customerFilter.getEmail());
+		cust.setUser1(user);
+		cust.setCreatedon(new Timestamp(System.currentTimeMillis()));
 		customerRepository.save(cust);
 		
+		
+		Date date = new Date();
+		DateFormat fmtDate = new SimpleDateFormat("dd");
+		DateFormat fmtMon = new SimpleDateFormat("MMMM");
+		DateFormat fmtYear = new SimpleDateFormat("yyyy");
+		DateFormat fmtDay = new SimpleDateFormat("EEEE");
+		
+		String strDate = fmtDate.format(date);
+		String strMon = fmtMon.format(date);
+		String strYear = fmtYear.format(date);
+		String strDay = fmtDay.format(date);
+		
+		model.addAttribute("strDate", strDate);
+		model.addAttribute("strMon", strMon);
+		model.addAttribute("strYear", strYear);
+		model.addAttribute("strDay", strDay);
+		
+		DashboardFilter dashboardFilter = new DashboardFilter();
+		model.addAttribute("dashboardFilter", dashboardFilter);
+		model.addAttribute("userName", user.getFullname());
+		model.addAttribute("userActivitys", dashboardService.listUserActivity(user.getUsername()));
 		model.addAttribute("messageDataSimpan", "Data tersebut berhasil disimpan");
 		
-		return "redirect:/hasilsearch";
+		return "dashboard";
 		
 	}
 

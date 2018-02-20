@@ -68,6 +68,12 @@ public class DashboardService {
 			lsData = dashboardRepository.findJoinSearchByPhone(strPencarian.toLowerCase());
 		} else if (strKategori.equalsIgnoreCase("NAME")){
 			lsData = dashboardRepository.findJoinSearchByName(strPencarian.toLowerCase());
+		} else if (strKategori.equalsIgnoreCase("CIF")){
+			lsData = dashboardRepository.findJoinSearchByCif(new BigInteger(strPencarian));
+		} else if (strKategori.equalsIgnoreCase("NOREK")){
+			lsData = dashboardRepository.findJoinSearchByNorek(new BigInteger(strPencarian));
+		} else if (strKategori.equalsIgnoreCase("NOKAR")){
+			lsData = dashboardRepository.findJoinSearchByNokar(new BigInteger(strPencarian));
 		}
 		
 		return convertlistSearchByParam(lsData);

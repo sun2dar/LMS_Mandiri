@@ -74,15 +74,9 @@ public class DashboardController {
 		DashboardFilter dashboardFilter = new DashboardFilter();
 		model.addAttribute("dashboardFilter", dashboardFilter);
 		model.addAttribute("userName", user.getFullname());
-		model.addAttribute("adminMessage", "Content Available Only for Users with Admin Role");
 		model.addAttribute("userActivitys", dashboardService.listUserActivity(user.getUsername()));
 		
-		System.out.println("userName ::: "+user.getFullname());
-		System.out.println("lastlogin ::: "+user.getLastlogin());
-		
-		
-//		modelAndView.setViewName("admin/home");
-		return "admin/dashboard";
+		return "dashboard";
 	}
 	
 	@RequestMapping(path="/dashboard-search", method=RequestMethod.POST)
@@ -146,7 +140,7 @@ public class DashboardController {
 		model.addAttribute("userName", user.getFullname());
 		model.addAttribute("userActivitys", dashboardService.listUserActivity(user.getUsername()));
 		
-		return "admin/hasilsearch";
+		return "hasilsearch";
 	}
 	
 	@RequestMapping(value="/customer-edit-all-dashboard/{cif}", method=RequestMethod.GET)
