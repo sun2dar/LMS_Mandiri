@@ -25,6 +25,8 @@ public class CustomerFilter {
 	private String customerProducts;
 	private String customerResponses;
 	private String userActivities;
+	private BigInteger nasabahPep;
+	private String jobType;
 
 	public BigInteger getCif() {
 		return cif;
@@ -184,6 +186,22 @@ public class CustomerFilter {
 
 	public void setUserActivities(String userActivities) {
 		this.userActivities = userActivities;
+	}
+
+	public BigInteger getNasabahPep() {
+		return nasabahPep;
+	}
+
+	public void setNasabahPep(BigInteger nasabahPep) {
+		this.nasabahPep = nasabahPep;
+	}
+
+	public String getJobType() {
+		return jobType;
+	}
+
+	public void setJobType(String jobType) {
+		this.jobType = jobType;
 	}
 
 }

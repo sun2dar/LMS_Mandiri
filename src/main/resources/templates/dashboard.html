@@ -22,10 +22,10 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12">
-							<div class="alert alert-block alert-success fade in" th:if="${messageDataSimpan}">
-									<button type="button" class="close" data-dismiss="alert"></button>
-									<h4 class="alert-heading">Perhatian!</h4>
-									<p th:text="${messageDataSimpan}"></p>
+							<div class="alert alert-block alert-success alert-dismissable" th:if="${messageDataSimpan}">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								<h4 class="alert-heading">Success!</h4>
+								<p th:text="${messageDataSimpan}"></p>
 							</div>
 						</div>
 					</div>
